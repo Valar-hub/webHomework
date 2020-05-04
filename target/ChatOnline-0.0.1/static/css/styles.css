@@ -1,0 +1,331 @@
+html,body {
+    height: 100%;
+}
+.main{
+    text-align: center;
+    margin: 30px auto 0;
+    height: 802px;
+    min-height: 800px;
+    width: 802px;
+}
+
+/* 聊天页面左侧栏 外部div样式 */
+ .main .User-Info{
+    float: left;
+    vertical-align: middle;
+    text-align: initial;
+    width: 200px;
+    height: 802px;
+    border: 1px solid #F10215;
+    background: #fafafa;
+}
+
+/* 左侧栏显示在线用户列表div样式 */
+.User-Info .user-list{
+    text-align: initial;
+    width: 198px;
+    height: 700px;
+    background: #fafafa;
+    overflow-y: auto;
+}
+
+
+.user-list .user-item{
+    height: 70px;
+    background: #fafafa;
+    padding: 10px 15px;
+    cursor: pointer;
+    position: relative;
+}
+.user-list .user-item:hover{
+    background: #ebebec;
+}
+.user-list .user-item:hover .close{
+	display: block;
+}
+.user-list .user-item .head{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+.user-list .user-item .close{
+	width: 30px;
+	height: 70px;
+	background: #ebebec;
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: none;
+}
+.user-list .user-item .close span{
+	position: absolute;
+	top: 26px;
+	left: 8px;
+	width: 18px;
+	height: 18px;
+	line-height: 18px;
+	background: #666;
+	border-radius: 50%;
+	text-align: center;
+	color: #fff;
+	font-size: 15px;
+	z-index: 100;
+}
+.user-list .user-item .close span:hover{
+	background: red;
+}
+/* 左侧栏显示当前用户信息图像 */
+.currentUser .userImage{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.User-Info .currentUser .userName{
+    display: inline-block;
+    width: 95px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.user-list .user-item .userName{
+    display: inline-block;
+    width: 95px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.user-list .selected{
+    background: #ebebec;
+}
+
+/* 当前用户信息div样式 */
+.currentUser {
+	border: 1px solid red;
+	height: 80px;
+	background: #F10215;
+	color: #fff;
+	padding: 10px 15px;
+}
+
+.chat-bg {
+	float: right;
+    background: #fff;
+    width: 600px;
+    height: 100%;
+    position: relative;
+    border: 1px solid #F10215;
+    border-left: none;
+    vertical-align: middle;
+    text-align: initial;
+}
+
+.header-title{
+    background: #F10215;
+    height: 40px;
+    width: 100%;
+    text-align: left;
+    text-indent: 20px;
+    line-height: 40px;
+    font-size: 20px;
+    color: #fff;
+    z-index: 3;
+}
+
+.chat-box {
+    height: 641px;
+    overflow-y: hidden;
+    position: relative;
+}
+
+.chat-trip {
+    background-color: #F4F4F4;
+    line-height: 35px;
+    height: 6%;
+    display: block;
+    text-align: center;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 13px;
+    position: relative;
+    top: 10px;
+    left: 3%;
+    z-index: 2;
+    display: block;
+}
+
+.bubbleDiv {
+    margin: 0 auto;
+    overflow: auto;
+    height: 94%;
+    padding: 0 3%;
+}
+
+.bubbleItem {
+    width: 100%;
+    position: relative;
+}
+
+.bubble {
+    line-height: 30px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: inline-block;
+    word-break: break-word;
+    padding: 4px 10px;
+    font-size: 14px;
+}
+.bubble2 {
+    line-height: 30px;
+    border-radius: 8px;
+    display: inline-block;
+    word-break: break-word;
+    font-size: 14px;
+    margin-top: 10px;
+}
+.centerBubble{
+	width: 100%;
+	text-align: center; 
+	height: 30px;
+	line-height: 20px;
+}
+
+.leftBubble {
+    position: relative;
+    background-color: #E1E6F6;
+    margin-left: 50px;
+    margin-right: 10px;
+}
+
+.rightBubble {
+    position: relative;
+    margin-right: 50px;
+    margin-left: 10px;
+    float: right;
+    background-color: #A6C8FF;
+    color: #000000;
+}
+
+.leftBubble .topLevel {
+    position: absolute;
+    top: 10px;
+    left: -9px;
+    border-bottom: 10px solid #E1E6F6;
+    border-left: 10px solid transparent;
+}
+
+.rightBubble .topLevel {
+    position: absolute;
+    top: 10px;
+    right: -8px;
+    border-bottom: 10px solid #A6C8FF;
+    border-right: 10px solid transparent;
+}
+
+.chat-time {
+    color: #888;
+    text-align: center;
+    line-height: 30px;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.chat-edit {
+    box-sizing: border-box;
+    border-top: 1px solid #eee;
+    background: #fff;
+    padding: 5px 64px 6px 44px;
+    box-sizing: border-box;
+}
+
+.chat-info {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border: 1px solid #eee;
+    resize: none;
+    padding: 6px 4px;
+    font-size: 16px;
+    color: #666;
+    overflow-y: visible;
+}
+
+.send-btn {
+    padding: 6px 10px;
+    border: 0;
+    background: #F10215;
+    color: #fff;
+    min-width: 40px;
+    border-radius: 4px;
+    margin-left: 3%;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.uploadImg {
+    display: inline-block;
+    background: url("../image/icon.png") no-repeat;
+    width: 24px;
+    height: 24px;
+    background-position: 0 -84px;
+    background-size: 24px;
+    position: relative;
+    z-index: 2;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+}
+
+.uploadfile {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+}
+
+.left-head {
+    width: 40px;
+    box-sizing: border-box;
+    position: absolute;
+    height: 40px;
+    top: 20px;
+}
+
+
+.left-head img {
+    width: 100%;
+    border-radius: 500px;
+    box-sizing: border-box;
+    border: 1px solid #e5e5e5;
+    height: 100%;
+}
+
+.right-head {
+    width: 40px;
+    box-sizing: border-box;
+    position: absolute;
+    height: 40px;
+    top: 20px;
+    right: 0;
+}
+
+
+.right-head img {
+    width: 100%;
+    border-radius: 500px;
+    box-sizing: border-box;
+    border: 1px solid #e5e5e5;
+    height: 100%;
+}

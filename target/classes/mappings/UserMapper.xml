@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--注意:此处是根据命名空间的值找到dao接口的，因此必须要与dao接口的全局限定名对应 映射文件中sql语句的id也要与dao接口中的方法名对应，否则会报错 -->
+<mapper namespace="com.yichuan.dao.UserDao">
+	<!-- 关联查询部门信息的影射关系 -->
+<!-- 	<resultMap type="com.yichuan.entity.Emp" id="empWithDept">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="age" property="age" />
+		<result column="gender" property="gender" />
+		<result column="email" property="email" />
+		<result column="deptNo" property="deptNo" />
+		<association property="dept" javaType="com.yichuan.entity.Dept">
+			<id column="id" property="id" />
+			<result column="dname" property="dname" />
+		</association>
+	</resultMap>
+	 -->
+	 <!-- <resultMap type="com.yichuan.pojo.User" id="UserMap">
+		 <id column="id" property="id" />
+		<result column="username" property="username" />
+	</resultMap> -->
+	
+	<!-- 查询所有用户信息 -->
+	 <select id="queryAll" resultType="User">
+	    select * from user
+	 </select>
+	 
+	 <!-- 查询单个用户信息 -->
+	 <!-- 如果参数类型parameterType是普通数据类型，那么SQL中的#{}参数名可以任意； 如果参数是对象，那么参#{}数名称必须和对象属性名一致 -->
+	 <select id="queryUser" resultType="User" parameterType="String">
+	 SELECT * FROM USER u WHERE u.username=#{username} AND u.password = #{password}
+	 </select>
+
+
+
+
+
+</mapper>

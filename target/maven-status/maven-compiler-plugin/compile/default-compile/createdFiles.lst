@@ -1,0 +1,15 @@
+com\yichuan\websocket\HttpSessionConfigurator.class
+com\yichuan\util\Status.class
+com\yichuan\service\MessageService.class
+com\yichuan\dao\MessageDao.class
+com\yichuan\entity\Message.class
+com\yichuan\controller\UserController.class
+com\yichuan\service\impl\UserServiceImpl.class
+com\yichuan\dao\UserDao.class
+com\yichuan\controller\MessageController.class
+com\yichuan\service\impl\MessageServiceImpl.class
+com\yichuan\util\Tool.class
+com\yichuan\entity\Msg.class
+com\yichuan\service\UserService.class
+com\yichuan\websocket\ChatScoket.class
+com\yichuan\entity\User.class

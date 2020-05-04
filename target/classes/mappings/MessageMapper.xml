@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--注意:此处是根据命名空间的值找到dao接口的，因此必须要与dao接口的全局限定名对应 映射文件中sql语句的id也要与dao接口中的方法名对应，否则会报错 -->
+<mapper namespace="com.yichuan.dao.MessageDao">
+	<!-- 配置message类的映射 -->
+ 	<resultMap type="com.yichuan.entity.Message" id="messageMap">
+		<id column="MID" property="M_ID" />
+		<result property="MContent" column="M_Content" />
+		<result property="MTime" column="M_Time" />
+		<result property="MFromUserID" column="M_FromUserID" />
+		<result property="MToUserID" column="M_ToUserID" />
+<!-- 		<association property="dept" javaType="com.yichuan.entity.Dept">
+			<id column="id" property="id" />
+			<result column="dname" property="dname" />
+		</association> -->
+	</resultMap>
+
+	<sql id="messageSQL">
+		m.`M_ID`,m.`M_Content`,m.`M_Time`,m.`M_FromUserID`,m.`M_ToUserID`
+	</sql>
+
+	<!-- 查询所有消息 -->
+	<select id="queryAll" resultMap="messageMap">
+		SELECT * FROM messages
+	</select>
+
+	<!-- 查询对应的聊天信息 -->
+	<select id="queryMessage" resultMap="messageMap" parameterType="string">
+		SELECT
+		<include refid="messageSQL" />
+		FROM messages m 
+		WHERE 
+		(m.`M_FromUserID`=#{fromUID} AND m.`M_ToUserID`=#{toUID}) 
+		OR
+		(m.`M_FromUserID`=#{toUID} AND m.`M_ToUserID`=#{fromUID})
+		ORDER BY m.`M_Time`
+	</select>
+
+    <!-- *********************新增（测试多种新增）**************************** -->
+    <!--1. insert标签中不配置任何其他属性时直接插入，返回受影响的行数 -->
+    <!--  <insert id="saveMessage" parameterType="Message">
+    INSERT INTO messages(M_Content,M_Time,M_FromUserID,M_ToUserID) 
+          VALUES (#{MContent},#{MTime},#{MFromUserID},#{MToUserID});
+    </insert>  -->
+    
+	<!-- 2.主键id是自增，但是参数中不能省去，否则报错（该配置返回新增后可以获取主键ID主键，同时返回受影响的行数） -->
+	<insert id="saveMessage" parameterType="Message">
+		<!--<selectKey></selectKey> 用于返回插入数据的主键 SELECT LAST_INSERT_ID() sql语句用于得到执行insert操作后的主键值 
+			keyProperty ：将得到的主键值赋值到对象的指定的属性中， order ：相对于insert语句的执行顺序 -->
+		<selectKey resultType="int" keyProperty="MID" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO messages 
+          VALUES (#{MID},#{MContent},#{MTime},#{MFromUserID},#{MToUserID})
+	</insert> 
+	
+	<!-- 3. 可以获取主键ID主键 和 受影响的行数 -->
+	<!-- useGeneratedKeys="true"把新增加的主键赋值到自己定义的keyProperty（id）中 -->
+	<!-- useGeneratedKeys 取值范围true|false 默认值是：false。 含义：设置是否使用JDBC的getGenereatedKeys方法获取主键并赋值到keyProperty设置的领域模型属性中。 -->
+	<!-- <insert id="saveMessage" parameterType="Message" useGeneratedKeys="true"
+	       keyProperty="MID">
+	  INSERT INTO messages(M_Content,M_Time,M_FromUserID,M_ToUserID)
+	   VALUES (#{MContent},#{MTime},#{MFromUserID},#{MToUserID});
+     </insert> -->
+    <!-- *********************新增(测试结束)**************************** -->
+    
+    
+    <delete id="deleteMessage" parameterType="String">
+    DELETE FROM messages 
+    WHERE 
+		(M_FromUserID = #{fromUID} AND M_ToUserID = #{toUID}) 
+		OR
+		(M_FromUserID = #{toUID} AND M_ToUserID = #{fromUID})
+
+    </delete>
+
+
+    <!--*************************************** 批量删除********************************** -->
+    <!-- 原sql语句: in ('值','值','值') 中 in 后面的  括号和逗号 对应 open="(" separator="," close=")"  参数值 对应占位符 #{}-->
+    <!-- 注意：批量操作时  1.如果DAO层中接口只有一个参数List集合，foreach那么遍历 collection属性值要是"list";
+                       2.如果DAO层中有两个参数 List集合 和 另一个参数 ，那么需要在接口上必须定义别名，
+                                                  且 collection的值必须和别名一致;item值任意， 但要保证#{}参数中的值和 item值 一致。
+                        -->
+ 	<delete id="deleteMoreMessage" parameterType="java.lang.String">
+		DELETE FROM messages WHERE
+		(
+		M_FromUserID IN
+		<foreach collection="UIDlist" item="userID"  open="(" separator="," close=")">
+			#{userID}
+		</foreach>
+		AND M_ToUserID= #{UID}
+		)
+		OR
+		(
+		M_ToUserID IN
+		<foreach collection="UIDlist" item="userID"  open="(" separator="," close=")">
+			#{userID}
+		</foreach>
+		AND M_FromUserID= #{UID}
+		)
+	</delete> 
+	
+	<!-- 参数只有一个List集合时， collection的值要定义成“list”,item的值可以任意，但要保证#{}参数中的值和 item值 一致。 -->
+		<!-- <delete id="deleteMoreMessage">
+		DELETE FROM messages WHERE
+		M_FromUserID IN
+		<foreach collection="list" item="UIDlist" index="index" open="(" separator="," close=")">
+			#{UIDlist}
+		</foreach>
+		OR
+		M_ToUserID IN
+		<foreach collection="list" item="UIDlist" index="index" open="(" separator="," close=")">
+			#{UIDlist}
+		</foreach>
+	</delete> -->
+     <!--************************************************************************* --> 
+    
+
+
+
+</mapper>

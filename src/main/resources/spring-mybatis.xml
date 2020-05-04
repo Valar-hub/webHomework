@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc    http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/jee     http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+		http://www.springframework.org/schema/tx      http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/util    http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://www.springframework.org/schema/task    http://www.springframework.org/schema/task/spring-task-4.0.xsd
+		http://www.springframework.org/schema/mvc     http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd"
+	   default-lazy-init="true">
+	   <!-- 此参数表示延时加载，即在项目启动时不会实例化注解的bean，除非启动项目时需要用到，未实例化的注解对象在程序实际访问调用时才注入调用
+	        实际开发中可将default-lazy-init属性设置为true，可大大减少项目启动时间
+	    -->
+	
+	<!-- 自动扫描，
+	扫描以com.yichuan开头包中的所有有注解的类注入spring（IOC）,但是不扫描controller -->
+	<context:component-scan base-package="com.yichuan">
+	   <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+     <!-- 加载数据配连接配置文件 -->
+	<context:property-placeholder location="classpath:config.properties"/>
+
+	
+	<!-- *************定义数据源(动态) **************************** -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<!-- 配置初始化大小、最小、最大 
+		<property name="initialSize" value="${jdbc.pool.init}" />
+		<property name="minIdle" value="${jdbc.pool.minIdle}" />
+		<property name="maxActive" value="${jdbc.pool.maxActive}" />-->
+	</bean>
+	
+	<!-- 加载配置文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+	<!-- 加载数据源 --> 
+        <property name="dataSource" ref="dataSource" />  
+        <!-- 引入mybatis映射文件 -->
+        <property name="mapperLocations" value="classpath:mappings/*.xml"></property>
+        <!-- 引入mybatis主配置文件 -->  
+        <property name="configLocation" value="classpath:mybatis.xml"></property>
+    </bean> 
+    
+    <!-- 配置扫描器，扫描dao接口所在的包名，将mybatis接口的实现加入到ioc容器中 -->
+	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<property name="basePackage" value="com.yichuan.dao" />
+	</bean>
+
+	<!-- 定义事务 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	
+	
+	<!-- 配置 Annotation 驱动，扫描@Transactional注解的类定义事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+		
+	 	<!-- <bean id="EmpDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.yichuan.dao.EmpDao"/>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean> -->
+	
+      <bean id="mService" class="com.yichuan.service.impl.MessageServiceImpl"></bean>
+   
+</beans>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE configuration  
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 实体类别名 -->
+	<typeAliases>
+		<!-- 定义单个别名 -->
+		<!-- <typeAlias alias="User" type="com.yichuan.entity.User"></typeAlias> -->
+		<!-- 批量定义类别名：指定要定义类的包名，mybatis会自动扫描该包中的类，然后自动定义别名，所定义的别名是类名（首字母不区分大小写） -->
+		<package name="com.yichuan.entity" />
+	</typeAliases>
+
+
+
+	<!-- 注册分页插件 -->
+<!-- 	<plugins>
+		<plugin interceptor="com.github.pagehelper.PageHelper">
+			分页合理化
+			<property name="reasonable" value="true" />
+		</plugin>
+	</plugins> -->
+</configuration> 

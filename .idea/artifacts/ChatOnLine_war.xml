@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ChatOnLine:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>ChatOnLine</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="ChatOnline-0.0.1.war">
+      <element id="artifact" artifact-name="ChatOnLine:war exploded" />
+    </root>
+  </artifact>
+</component>
