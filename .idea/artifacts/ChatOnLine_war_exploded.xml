@@ -56,6 +56,8 @@
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-coyote:9.0.17" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-servlet-api:9.0.17" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jni:9.0.17" />
+          <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.4.7" />
+          <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">

@@ -215,6 +215,11 @@
 			<artifactId>tomcat-coyote</artifactId>
 			<version>9.0.17</version>
 		</dependency>
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
 
 
 	</dependencies>
